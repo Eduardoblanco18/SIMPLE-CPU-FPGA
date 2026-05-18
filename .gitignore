@@ -1,0 +1,14 @@
+# Quartus
+db/
+incremental_db/
+output_files/
+simulation/
+
+# Temporary files
+*.bak
+*.qws
+*.rpt
+
+# OS files
+.DS_Store
+Thumbs.db
