@@ -1,11 +1,9 @@
 library ieee;
-use ieee.std_logic_1164;
+use ieee.std_logic_1164.all;
 
 entity UC is
 	port (
-			CLOCK_50, reset : in  std_logic;
-			
-			OP_CODE: in std_logic_vector (
+			clock_UC, reset_UC : in  std_logic;
 			
 			bus_select: out std_logic_vector (2 downto 0);
 			
@@ -17,32 +15,40 @@ entity UC is
 	
 architecture bhv of UC is
 	
-	type t_State is (Fetch, Decode, Operend_fetch, Execution);
+	type t_State is (Fetch, Decode, Operand_fetch, Execution);
 	
 	signal current_state : t_State;
 	
 	begin
 		
-		process (CLOCK_50)
+		process (clock_UC)
 			begin
-				if rising_edge(CLOCK_50) then
-					if reset = '1' then
+				if rising_edge(clock_UC) then
+					if reset_UC = '1' then
 						
 						current_state <= Fetch;
+						
+						bus_select <= (others := '0');
+						R0in <= '0';
+						R1in <= '0';
+						Ain <= '0';
+						ALU_op_code <= (others := '0');
+						
+						
 					
 					else 
 						
 						case current_state is
 							
 							when Fetch => 
-							
+								
 								current_state <= Decode;
 							
 							when Decode =>
 							
-								current_state <= Operend_fetch;		
+								current_state <= Operand_fetch;		
 							
-							when Operend_fetch =>
+							when Operand_fetch =>
 							
 								current_state <= Execution;
 							
